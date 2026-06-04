@@ -1,15 +1,6 @@
 # ItemCore 
 是一个面向 Paper 1.21.x 的自定义物品/属性的插件
 
-## 拓展
-
-| 插件 | 用途 |
-|------|------|
-| **ItemCore** | 核心插件：物品管理、属性计算、伤害系统、元素系统、GUI |
-| **ItemCoreRPG** | 玩家信息 GUI、伤害飘字显示 |
-| **ItemCoreMythic** | MythicMobs 集成 |
-| **ItemCoreForge** | 锻造拓展 |
-
 **核心特性：**
 - 灵活拓展，核心插件只包含必须的核心功能，拓展插件功能丰富
 - 多 种自定义属性（攻击、防御、暴击、穿透等）
@@ -23,3 +14,12 @@
 - 物品锻造系统（需要ICDamageForge）
 - 饰品系统（需要ItemCoreTrinkets）
 - RPG风格拓展，伤害嫖字，gui属性等（需要ItemCoreRPG）
+
+## 拓展
+
+| 插件 | 用途 |
+|------|------|
+| **ItemCoreRPG** | 玩家信息 GUI、伤害飘字显示 |
+| **ItemCoreMythic** | MythicMobs 集成 |
+| **ItemCoreForge** | 锻造拓展 |
+| **ItemCoreTrinkets** | 饰品系统 |
