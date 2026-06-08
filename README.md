@@ -1,27 +1,27 @@
-# ItemCore 
-是一个面向 Minecraft JAVA版 的自定义物品/属性的插件
+# ItemCore
+is a custom item/attribute plugin for Minecraft JAVA Edition
 
-**wiki：**  [https://honzhi.github.io/ItemCore/](https://github.com/honzhi/ItemCore/wiki)
+**Wiki:** `https://github.com/honzhi/ItemCore/wiki`
 
-**核心特性：**
-- 灵活拓展，核心插件只包含必须的核心功能，拓展插件功能丰富
-- 多 种自定义属性（攻击、防御、暴击、穿透等）
-- 3 种默认元素类型（流火/寒霜/雷蛰），框架级可扩展
-- 可配置的伤害计算系统（可自行设置抗性的伤害减免公式）
-- 元素积累/异常机制（灼烧 DOT、寒霜减双抗、雷蛰增伤）
-- 自动 Lore 更新（周期性更新玩家物品的lore以保持最新版本）
-- 物品库 GUI（分类浏览、获取物品）
-- PlaceholderAPI 集成（23 个占位符）
-- MythicMobs 技能桥接（需要ICDamageMechanic）
-- 物品锻造系统（需要ICDamageForge）
-- 饰品系统（需要ItemCoreTrinkets）
-- RPG风格拓展，伤害嫖字，gui属性等（需要ItemCoreRPG）
+**Core Features:**
+- Flexible expansion: The core plugin only includes essential core features, while expansion plugins offer rich functionality
+- Multiple custom attributes (Attack, Defense, Crit, Penetration, etc.)
+- 3 default element types (Fire/Frost/Thunder), framework-level expandable
+- Configurable damage calculation system (you can set your own resistance damage reduction formula)
+- Element accumulation/abnormality mechanism (Burning DOT, Frost reduces dual resistance, Thunder increases damage)
+- Automatic Lore update (periodically updates player item lore to keep it up to date)
+- Item library GUI (browse by category, obtain items)
+- PlaceholderAPI integration (23 placeholders)
+- MythicMobs skill bridging (requires ICDamageMechanic)
+- Item forging system (requires ICDamageForge)
+- Trinket system (requires ItemCoreTrinkets)
+- RPG-style expansion, damage display, GUI attributes, etc. (requires ItemCoreRPG)
 
-## 拓展
+## Expansions
 
-| 插件 | 用途 |
-|------|------|
-| **ItemCoreRPG** | 玩家信息 GUI、伤害飘字显示 |
-| **ItemCoreMythic** | MythicMobs 集成 |
-| **ItemCoreForge** | 锻造拓展 |
-| **ItemCoreTrinkets** | 饰品系统 |
+| Plugin | Purpose |
+|--------|---------|
+| **ItemCoreRPG** | Player info GUI, damage float text display |
+| **ItemCoreMythic** | MythicMobs integration |
+| **ItemCoreForge** | Forging expansion |
+| **ItemCoreTrinkets** | Trinket system |
