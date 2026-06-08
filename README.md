@@ -1,7 +1,7 @@
 # ItemCore 
 是一个面向 Minecraft JAVA版 的自定义物品/属性的插件
 
-**wiki：**  https://honzhi.github.io/ItemCore/
+**wiki：**  [https://honzhi.github.io/ItemCore/](https://github.com/honzhi/ItemCore/wiki)
 
 **核心特性：**
 - 灵活拓展，核心插件只包含必须的核心功能，拓展插件功能丰富
