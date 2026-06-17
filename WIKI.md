@@ -1,180 +1,157 @@
 # ItemCore Wiki
 
-> 版本: v1.0.0 | Paper 1.21.x | 依赖: PlaceholderAPI(可选)
+> | Paper 1.21.x |  This wiki is translated by AI. Please excuse any errors.
 
 ---
 
-## 📑 目录
+## 📑 Table of Contents
 
-- [1. 简介](#1-简介)
-- [2. 安装与配置](#2-安装与配置)
-- [3. 命令系统](#3-命令系统)
-- [4. 权限系统](#4-权限系统)
-- [5. 物品创建](#5-物品创建)
-- [6. 属性系统](#6-属性系统)
-- [7. 元素系统](#7-元素系统)
-- [8. 伤害系统](#8-伤害系统)
-- [9. Lore 展示系统](#9-lore-展示系统)
-- [10. GUI 系统](#10-gui-系统)
-- [11. 技能系统(ItemCoreMythic)](#11-技能系统itemcoremythic)
-- [12. PlaceholderAPI 占位符](#12-placeholderapi-占位符)
-- [13. 开发者 API](#13-开发者-api)
-- [14. 常见问题](#14-常见问题)
+- [1. Introduction](#1-introduction)
+- [2. Installation and Configuration](#2-installation-and-configuration)
+- [3. Command System](#3-command-system)
+- [4. Permission System](#4-permission-system)
+- [5. Item Creation](#5-item-creation)
+- [6. Attribute System](#6-attribute-system)
+- [7. Element System](#7-element-system)
+- [8. Damage System](#8-damage-system)
+- [Expansion 1 Skill System (ItemCoreMythic)](#expansion-1-skill-system-itemcoremythic)
+- [Appendix 1 PlaceholderAPI Placeholders](#appendix-1-placeholderapi-placeholders)
+- [Appendix 2 Developer API](#appendix-2-developer-api)
+- [FAQ](#faq)
 
 ---
 
-## 1. 简介
+## 1. Introduction
 
-ItemCore 是一套面向 Paper 1.21.x 的自定义物品系统插件，包含三个子插件：
+ItemCore is a concise and focused item library plugin, featuring the ability to freely add expansion plugins to enrich plugin functionality.
 
-| 插件 | 用途 |
-|------|------|
-| **ItemCore** | 核心插件：物品管理、属性计算、伤害系统、元素系统、GUI |
-| **ItemCoreRPG** | RPG 拓展：玩家信息 GUI、伤害飘字显示 |
-| **ItemCoreMythic** | MythicMobs 桥接：技能触发、ICDamageMechanic |
+Below are expansion plugins that are already or planned to be developed
+| Plugin | Purpose |
+|--------|---------|
+| **ItemCoreMythic** | MythicMobs expansion |
+| **ItemCoreForge** | RPG expansion |
+| **ItemCoreRPG** | Forging expansion |
+| **ItemCoreTrinkets** | Trinket expansion |
 
-**核心特性：**
 
-- 22 种自定义属性（攻击、防御、暴击、穿透等）
-- 3 种默认元素类型（流火/寒霜/雷蛰），框架级可扩展
-- 自定义伤害计算系统（物理/法术/射弹 + 元素混合伤害）
-- 元素积累/异常机制（灼烧 DOT、寒霜减双抗、雷蛰增伤）
-- 自动 Lore 生成（可配置布局 + 白/橙色配色）
-- 物品库 GUI（分类浏览、获取物品）
-- PlaceholderAPI 集成（23 个占位符）
-- MythicMobs 技能桥接（ICDamageMechanic）
-- 热重载：修改配置后 `/ic reload` 即可生效
+**Core Features:**
+  
+- Full configurability
+- Unique element system (element accumulation/ailment mechanism)    
+- Real-time update of player item lore and attributes
 
 ---
 
-## 2. 安装与配置
+## 2. Installation and Configuration
 
-### 2.1 安装步骤
+### 2.1 Installation Steps
 
-1. 将 `ItemCore.jar`、`ItemCoreRPG.jar`、`ItemCoreMythic.jar` 放入 `plugins/` 目录
-2. （可选）安装 PlaceholderAPI
-3. 重启服务器
-4. 插件首次启动会自动生成配置文件结构：
+1. Place `ItemCore.jar` into the `plugins/` directory
+2. Restart the server
+3. The plugin will automatically generate the configuration file structure on first startup:
 
 ```
 plugins/ItemCore/
-├── config.yml              # 主配置
-├── attributes.yml          # 属性全局参数
-├── messages.yml            # 消息配置
-├── categories.yml          # 分类配置
-├── elements.yml            # 元素配置
-├── ailments.yml            # 异常配置
-├── items/                  # 物品配置目录
+├── config.yml              # Main configuration
+├── attributes.yml          # Attribute global parameters
+├── messages.yml            # Message configuration
+├── categories.yml          # Category configuration
+├── elements.yml            # Element configuration
+├── ailments.yml            # Ailment configuration
+├── items/                  # Item configuration directory
 │   ├── weapons.yml
 │   ├── armors.yml
 │   └── ...
 ├── tooltip/
-│   ├── lore.yml            # Lore 布局
-│   └── stats.yml           # 属性显示格式
-```
-
-### 2.2 重载配置
-
-```
-/ic reload
+│   ├── lore.yml            # Lore layout
+│   └── stats.yml           # Attribute display format
 ```
 
 ---
 
-## 3. 命令系统
+## 3. Command System
 
-### 3.1 主命令 `/ic`
+### 3.1 Main Command `/ic`
 
-| 子命令 | 用途 | 权限 |
-|--------|------|------|
-| `open` | 打开物品库 GUI | `itemcore.command.gui` |
-| `gui` | 同上（兼容） | `itemcore.command.gui` |
-| `give <玩家> <物品> [数量]` | 给予物品 | `itemcore.command.give` |
-| `list [分类]` | 列出已加载的物品 | `itemcore.command.list` |
-| `reload` | 热重载所有配置 | `itemcore.command.reload` |
-| `info <物品>` | 查看物品详情 | `itemcore.command.info` |
-| `help` | 显示帮助 | `itemcore.command.help` |
+| Subcommand | Purpose | Permission |
+|------------|---------|------------|
+| `open` | Open item library GUI | `itemcore.command.gui` |
+| `give <player> <item> [amount]` | Give item | `itemcore.command.give` |
+| `reload` | Hot reload all configurations | `itemcore.command.reload` |
+| `help` | Show help | `itemcore.command.help` |
 
-**示例：**
+**Examples:**
 
 ```
-/ic open                       # 打开物品库
-/ic give Is_Lianhua iron_sword # 给予物品
-/ic reload                     # 重载配置
+/ic open                       # Open item library
+/ic give Is_Lianhua iron_sword # Give item
+/ic reload                     # Reload configuration
 ```
+---
 
-### 3.2 RPG 命令 `/itemcorerpg`
+## 4. Permission System
 
-| 子命令 | 用途 |
-|--------|------|
-| `stats [玩家]` | 打开玩家信息 GUI |
-| `reload` | 重载配置 |
+| Permission Node | Default | Description |
+|-----------------|---------|-------------|
+| `itemcore.admin` | OP | Admin permission (includes all below) |
+| `itemcore.command.give` | OP | Give item |
+| `itemcore.command.reload` | OP | Reload configuration |
+| `itemcore.gui.obtain` | OP | Obtain item from GUI |
+| `itemcore.gui.gui` | OP | Open item GUI |
+| `itemcore.command.help` | Everyone | View help |
 
 ---
 
-## 4. 权限系统
+## 5. Item Creation
 
-| 权限节点 | 默认 | 说明 |
-|----------|------|------|
-| `itemcore.admin` | OP | 管理权限（包含以下全部） |
-| `itemcore.command.help` | 所有人 | 查看帮助 |
-| `itemcore.command.gui` | 所有人 | 打开物品库 |
-| `itemcore.command.give` | OP | 给予物品 |
-| `itemcore.command.list` | 所有人 | 列出物品 |
-| `itemcore.command.reload` | OP | 重载配置 |
-| `itemcore.command.info` | 所有人 | 查看物品信息 |
-| `itemcore.gui.obtain` | OP | 从 GUI 获取物品 |
+Create items in category files under the items/ folder, such as weapons.yml.
 
----
+**Complete configurable items:**
 
-## 5. 物品创建
+| Configuration | Type | Default | Description |
+|---------------|------|---------|-------------|
+| `material` | Material name | **Required** | Item material |
+| `type` | String | - | Temporarily unused |
+| `display-name` | String | — | Display name (supports `&` color codes) |
+| `lore` | List | — | Item description |
+| `attributes` | Map | — | Attribute configuration |
+| `enchantments` | Map | — | Enchantments |
+| `item-flags` | List | — | Item flags |
+| `unbreakable` | Boolean | false | Whether unbreakable |
+| `max-stack` | Integer | Vanilla rules | Maximum stack size |
+| `custom-model-data` | Integer | — | Custom model data |
+| `active-slots` | List | any | Active equipment slots |
+| `effects` | List | — | Potion effects |
+| `keep-on-death` | Boolean | false | Whether to keep on death |
+| `skills` | List | — | Skill configuration (requires ItemCoreMythic) |
 
-### 5.1 基本格式
-
-在 `items/` 目录下的 `.yml` 文件中定义：
-
+**Configuration Supplement**
 ```yaml
-legendary_blade:
-  material: NETHERITE_SWORD
-  type: weapons
-  display-name: "&4&l传说之刃"
-  lore:
-    - "&7传说中的神秘武器"
-  attributes:
-    ATTACK_DAMAGE: 15
-    CRIT_CHANCE: 25
-  active-slots:
-    - main-hand
+active-slots:
+  - main-hand  # Main hand
+  - off-hand   # Off hand
+  - head       # Head
+  - chest      # Chest
+  - legs       # Legs
+  - feet       # Feet
+  - any        # All
+item-flags:
+  - HIDE_ATTRIBUTES   # Hide attributes (will directly remove vanilla attributes)
+  - HIDE_ENCHANTS    # Hide enchantments
+  - HIDE_UNBREAKABLE  # Hide unbreakable
+  - HIDE_POTION_EFFECTS  # Hide potion effects
+
 ```
 
-### 5.2 完整配置项
-
-| 配置项 | 类型 | 默认值 | 说明 |
-|--------|------|--------|------|
-| `material` | 材质名 | **必填** | 物品材质 |
-| `type` | 字符串 | `misc` | 分类 ID（对应 categories.yml） |
-| `display-name` | 字符串 | — | 显示名称（支持 `&` 颜色码） |
-| `lore` | 列表 | — | 物品描述 |
-| `attributes` | Map | — | 属性配置（见下方） |
-| `enchantments` | Map | — | 附魔：`sharpness: 5` |
-| `item-flags` | 列表 | — | ItemFlag：`HIDE_ATTRIBUTES` |
-| `unbreakable` | 布尔 | false | 是否不可破坏 |
-| `max-stack` | 整数 | 64 | 最大堆叠数 |
-| `custom-model-data` | 整数 | — | 自定义模型数据 |
-| `active-slots` | 列表 | 全 | 生效装备位：`main-hand`, `off-hand`, `chest`, `feet`, `legs`, `head` |
-| `skills` | 列表 | — | 技能配置（需 ItemCoreMythic） |
-| `effects` | 列表 | — | 药水效果 |
-| `keep-on-death` | 布尔 | false | 死亡是否保留 |
-
-**示例 - 完整物品：**
+**Example - Complete Item:**
 
 ```yaml
 fire_sword:
   material: DIAMOND_SWORD
   type: weapons
-  display-name: "&c烈焰之剑"
+  display-name: "&cFlame Sword"
   lore:
-    - "&7燃烧一切的烈焰之剑"
+    - "&7Flame sword that burns everything"
   enchantments:
     sharpness: 3
     fire_aspect: 2
@@ -195,343 +172,202 @@ fire_sword:
       provider: mythicmobs
 ```
 
+
 ---
 
-## 6. 属性系统
+## 6. Attribute System
 
-### 6.1 全部属性列表
+### 6.1 Complete Attribute List
 
-**攻击类：**
+**Attack Class:**
 
-| 配置键 | 显示名 | 百分比 | 说明 |
-|--------|--------|--------|------|
-| `ATTACK_DAMAGE` | 攻击伤害 | — | 基础攻击力，直接加到伤害上 |
-| `ATTACK_SPEED` | 攻击速度 | — | 最终攻速值（如 `1.6` = 铁剑速度） |
-| `ATTACK_RANGE` | 攻击范围 | — | 攻击距离加成 |
-| `KNOCKBACK` | 击退 | — | 击退加成 |
-| `CRIT_CHANCE` | 暴击几率 | % | 暴击概率 |
-| `CRIT_DAMAGE` | 暴击伤害 | % | 额外暴击倍率（总暴击 = 默认150% + 此值） |
+| Config Key | Display Name | Percentage | Description |
+|------------|--------------|------------|-------------|
+| `ATTACK_DAMAGE` | Attack Damage | — | Base attack power, directly added to damage |
+| `ATTACK_SPEED` | Attack Speed | — | Final attack speed value (e.g., `1.6` = iron sword speed) |
+| `ATTACK_RANGE` | Attack Range | — | Attack distance bonus |
+| `KNOCKBACK` | Knockback | — | Knockback bonus |
+| `CRIT_CHANCE` | Crit Chance | % | Critical strike probability |
+| `CRIT_DAMAGE` | Crit Damage | % | Extra crit multiplier (total crit = default 150% + this value) |
 
-**法术/伤害类型：**
+**Spell/Damage Type:**
 
-| 配置键 | 显示名 | 百分比 | 说明 |
-|--------|--------|--------|------|
-| `SPELL_POWER` | 法术强度 | — | 法术伤害基础值 |
-| `PHYSICAL_DAMAGE` | 物理加成 | % | 物理伤害百分比加成 |
-| `SPELL_DAMAGE` | 法术加成 | % | 法术伤害百分比加成 |
-| `PROJECTILE_DAMAGE` | 射弹加成 | % | 射弹伤害百分比加成 |
-| `ADAPTIVE_FORCE` | 适应之力 | — | 自动转为攻击或法强（二者取高者加成） |
+| Config Key | Display Name | Percentage | Description |
+|------------|--------------|------------|-------------|
+| `SPELL_POWER` | Spell Power | — | Spell damage base value |
+| `PHYSICAL_DAMAGE` | Physical Bonus | % | Physical damage percentage bonus |
+| `SPELL_DAMAGE` | Spell Bonus | % | Spell damage percentage bonus |
+| `PROJECTILE_DAMAGE` | Projectile Bonus | % | Projectile damage percentage bonus |
+| `ADAPTIVE_FORCE` | Adaptive Force | — | Automatically converts to attack or spell power (whichever is higher) |
 
-**防御类：**
+**Defense Class:**
 
-| 配置键 | 显示名 | 百分比 | 说明 |
-|--------|--------|--------|------|
-| `PHYSICAL_RESIST` | 物理抗性 | — | 物理减伤（可配置公式） |
-| `SPELL_RESIST` | 法术抗性 | — | 法术减伤（可配置公式） |
-| `ARMOR` | 护甲 | — | 原版护甲值 |
-| `DAMAGE_REDUCTION` | 伤害减免 | % | 最终百分比减伤（对所有伤害生效） |
+| Config Key | Display Name | Percentage | Description |
+|------------|--------------|------------|-------------|
+| `PHYSICAL_RESIST` | Physical Resistance | — | Physical damage reduction (configurable formula) |
+| `SPELL_RESIST` | Spell Resistance | — | Spell damage reduction (configurable formula) |
+| `ARMOR` | Armor | — | Vanilla armor value |
+| `DAMAGE_REDUCTION` | Damage Reduction | % | Final percentage damage reduction (can be negative) |
 
-**穿透类：**
+**Penetration Class:**
 
-| 配置键 | 显示名 | 百分比 | 说明 |
-|--------|--------|--------|------|
-| `PHYSICAL_PENETRATION` | 物理穿透 | — | 固定值物理穿透 |
-| `PHYSICAL_PENETRATION_PERCENT` | 物理穿透 | % | 百分比物理穿透 |
-| `SPELL_PENETRATION` | 法术穿透 | — | 固定值法术穿透 |
-| `SPELL_PENETRATION_PERCENT` | 法术穿透 | % | 百分比法术穿透 |
+| Config Key | Display Name | Percentage | Description |
+|------------|--------------|------------|-------------|
+| `PHYSICAL_PENETRATION` | Physical Penetration | — | Fixed value physical penetration |
+| `PHYSICAL_PENETRATION_PERCENT` | Physical Penetration | % | Percentage physical penetration |
+| `SPELL_PENETRATION` | Spell Penetration | — | Fixed value spell penetration |
+| `SPELL_PENETRATION_PERCENT` | Spell Penetration | % | Percentage spell penetration |
 
-**生存类：**
+**Survival Class:**
 
-| 配置键 | 显示名 | 百分比 | 说明 |
-|--------|--------|--------|------|
-| `HEALTH` | 生命值 | — | 额外生命（基础20点） |
-| `MOVEMENT_SPEED` | 移动速度 | — | 额外移速（基础0.1） |
-| `REGENERATION` | 生命恢复 | — | 每秒恢复生命值 |
-| `LUCK` | 幸运值 | — | 幸运加成 |
+| Config Key | Display Name | Percentage | Description |
+|------------|--------------|------------|-------------|
+| `HEALTH` | Health | — | Extra health (base 20 points) |
+| `MOVEMENT_SPEED` | Movement Speed | — | Extra movement speed (base 0.1) |
+| `REGENERATION` | Life Regeneration | — | Health regeneration per second |
+| `LUCK` | Luck | — | Luck bonus |
 
-### 6.2 适应之力
-
-```yaml
-# attributes.yml
-adaptive-force:
-  attack_conversion: 0.5   # 每1点适应之力 → 0.5攻击
-  spell_conversion: 1.0    # 每1点适应之力 → 1.0法强
-```
-
-工作方式：比较玩家当前 `ATTACK_DAMAGE` 和 `SPELL_POWER`，数值高的那一方获得适应之力加成。
-
-### 6.3 暴击机制
-
-- `CRIT_DAMAGE` 为**额外**加成
-- 总暴击伤害 = `attributes.yml` 中 `crit.default_crit_damage`（默认 150%）+ `CRIT_DAMAGE`
-- 例：`CRIT_DAMAGE: 50` → 暴击时造成 200% 伤害
-
-### 6.4 攻击速度
-
-- 直接配置为**最终值**
-- `ATTACK_SPEED: 1.6` = 攻速 1.6（与原版铁剑相同）
-- `ATTACK_SPEED: 4.0` = 极快
-- 未配置时不影响原版攻速
-- 非 IC 武器保持原版 4.0 基准值
-
-### 6.5 防御公式
+All percentage attributes are filled directly as integers:
 
 ```yaml
-# 默认公式：百分比减伤（类似英雄联盟护甲公式）
-defense_formulas:
-  physical_resist: '{damage} * (1 - {armor} / ({armor} + 100))'
-  spell_resist: '{damage} * (1 - {armor} / ({armor} + 100))'
-
-# 也可用固定值减伤
-# physical_resist: '{damage} - {armor}'
-
-# 穿甲顺序
-penetration_order: percent_first  # 百分比先算 / flat_first 固定值先算
-```
-
-可用变量：`{damage}` 原始伤害、`{armor}` 护甲/法抗值
-
-### 6.6 百分比属性书写规则
-
-所有百分比属性直接填写整数：
-
-```yaml
-CRIT_CHANCE: 30    # ✅ 正确 = 30%
-CRIT_DAMAGE: 50    # ✅ 正确 = 50%
-PHYSICAL_DAMAGE: 10  # ✅ 正确 = 10%
+CRIT_CHANCE: 30    # ✅ Correct = 30%
+CRIT_DAMAGE: 50    # ✅ Correct = 50%
+PHYSICAL_DAMAGE: 10  # ✅ Correct = 10%
 ```
 
 ---
 
-## 7. 元素系统
+## 7. Element System
 
-### 7.1 默认元素
+### 7.1 Default Elements
 
-| 元素 ID | 显示名 | 图标 | 颜色 | 异常效果 |
-|---------|--------|------|------|---------|
-| `LIUHUO` | 流火 | `🔟` | `&c` | 灼烧：持续 8 秒，每秒 2% 当前生命伤害 |
-| `HANSHUANG` | 寒霜 | `❄️` | `&b` | 虚弱：持续 4 秒，物理/法术抗性 -30% |
-| `LEIZHE` | 雷蛰 | `⚡` | `&e` | 易伤：持续 6 秒，元素抗性 -25% |
+| Element ID | Display Name | Icon | Color | Ailment Effect |
+|------------|--------------|------|-------|----------------|
+| `LIUHUO` | Fire | `🔥` | `&c` | Burning: Lasts 8 seconds, 2% current health damage per second |
+| `HANSHUANG` | Frost | `❄️` | `&b` | Weakness: Lasts 4 seconds, physical/spell resistance -30% |
+| `LEIZHE` | Thunder | `⚡` | `&e` | Vulnerability: Lasts 6 seconds, element resistance -25% |
 
-### 7.2 元素积累
+### 7.2 Element Accumulation
 
 ```yaml
 # elements.yml
 LIUHUO:
-  display: "&c流火"
-  icon: '🔟'
+  display: "&cFire"
+  icon: '🔥'
   color: '&c'
-  threshold: 30           # 积累阈值，达到后触发异常
-  decay-per-second: 1     # 无元素伤害时每秒衰减
+  threshold: 30           # Accumulation threshold, triggers ailment when reached
+  decay-per-second: 1     # Decay per second when no elemental damage
   accumulation:
     mode: DAMAGE_PERCENT  # DAMAGE_PERCENT / FIXED / ATTRIBUTE
-    value: 0.5            # 每次伤害 = 伤害值 × 50% 积累
+    value: 0.5            # Each damage = damage value × 50% accumulation
     allow-sources:
       - ATTACK
       - SKILL
-  ailment: LIUHUO_DOT     # 关联异常 ID（见 ailments.yml）
+  ailment: LIUHUO_DOT     # Associated ailment ID (see ailments.yml)
 ```
 
-**积累模式：**
-- `DAMAGE_PERCENT`：积累值 = 伤害 × `value`
-- `FIXED`：每次固定积累 `value`
-- `ATTRIBUTE`：基于属性值 × `multiplier`
+**Accumulation Modes:**
+- `DAMAGE_PERCENT`: Accumulation = damage × `value`
+- `FIXED`: Fixed accumulation of `value` each time
+- `ATTRIBUTE`: Based on attribute value × `multiplier`
 
-### 7.3 异常配置
+### 7.3 Ailment Configuration
 
 ```yaml
 # ailments.yml
 LIUHUO_DOT:
-  display: "&c流火"
-  duration: 160           # 160 tick = 8 秒
+  display: "&cFire"
+  duration: 160           # 160 ticks = 8 seconds
   refresh-policy: RESET   # RESET / STACK / IGNORE / REPLACE
   triggers:
     - type: DAMAGE_PERCENT
-      value: 0.02         # 2% 当前生命
-      interval: 20        # 每秒触发一次
+      value: 0.02         # 2% current health
+      interval: 20        # Triggers once per second
 
 HANSHUANG_WEAKEN:
-  display: "&b寒霜"
+  display: "&bFrost"
   duration: 80
   refresh-policy: RESET
   triggers:
     - type: ATTRIBUTE_MOD
       attribute: PHYSICAL_RESIST
-      value: -0.3         # 物理抗性 -30%
+      value: -0.3         # Physical resistance -30%
     - type: ATTRIBUTE_MOD
       attribute: SPELL_RESIST
-      value: -0.3         # 法术抗性 -30%
+      value: -0.3         # Spell resistance -30%
 
 LEIZHE_BREAK:
-  display: "&e雷蛰"
+  display: "&eThunder"
   duration: 120
   refresh-policy: RESET
   triggers:
     - type: RESISTANCE_REDUCTION
-      value: -0.25        # 全元素抗性 -25%
+      value: -0.25        # All element resistance -25%
 ```
 
-**触发类型：**
-- `DAMAGE_PERCENT` — 按百分比造成 DOT 伤害
-- `DAMAGE_FIXED` — 固定值 DOT 伤害
-- `ATTRIBUTE_MOD` — 临时修改目标属性
-- `RESISTANCE_REDUCTION` — 降低元素抗性
-- `POTION_EFFECT` — 附加药水效果
+**Trigger Types:**
+- `DAMAGE_PERCENT` — Deal percentage damage of that element
+- `DAMAGE_FIXED` — Fixed value damage of that element
+- `ATTRIBUTE_MOD` — Temporarily modify target attribute
+- `RESISTANCE_REDUCTION` — Reduce element resistance
+- `POTION_EFFECT` — Apply potion effect
 
-### 7.4 拓展自定义元素
+### 7.4 Expanding Custom Elements
 
-代码中注册：
+Register in code:
 
 ```java
 ItemCore.getInstance().getElementRegistry()
-    .register(new ElementType("ARCANE", "奥术"));
+    .register(new ElementType("ARCANE", "Arcane"));
 ```
 
-在 `elements.yml` 和 `ailments.yml` 中配置对应的积累/异常规则。
+Configure corresponding accumulation/ailment rules in `elements.yml` and `ailments.yml`.
 
 ---
 
-## 8. 伤害系统
+## 8. Damage System
 
-### 8.1 伤害类型
+### 8.1 Damage Types
 
-| 类型 | 标签 | 说明 |
-|------|------|------|
-| **物理** | `PHYSICAL` | 普攻默认类型，吃物理加成/物抗 |
-| **法术** | `SPELL` | 技能默认类型，吃法术加成/法抗 |
-| **射弹** | `PROJECTILE` | 射弹伤害，吃射弹加成 |
+| Type | Tag | Description |
+|------|-----|-------------|
+| **Physical** | `PHYSICAL` | Default attack type, affected by physical bonus/physical resistance |
+| **Spell** | `SPELL` | Default skill type, affected by spell bonus/spell resistance |
+| **Projectile** | `PROJECTILE` | Projectile damage, affected by projectile bonus |
 
-### 8.2 伤害计算流程
+### 8.2 Damage Calculation Process
 
 ```
-原始伤害
-  → 攻击类型标签（PHYSICAL/SPELL/PROJECTILE）
-  → 暴击判定（CRIT_CHANCE → CRIT_DAMAGE）
-  → 伤害类型百分比加成（PHYSICAL_DAMAGE% 等）
-  → 穿透计算（百分比先或固定值先）
-  → 抗性减免（仅非元素伤害生效物理/法术抗性）
-  → 元素抗性减免（仅元素伤害生效）
-  → 伤害减免 DAMAGE_REDUCTION%（最终减伤）
-  → 元素积累
-  → 最终伤害
+Original damage
+  → Attack type tag (PHYSICAL/SPELL/PROJECTILE)
+  → Crit check (CRIT_CHANCE → CRIT_DAMAGE)
+  → Damage type percentage bonus (PHYSICAL_DAMAGE%, etc.)
+  → Penetration calculation (percentage first or fixed first)
+  → Resistance reduction (only non-elemental damage is affected by physical/spell resistance)
+  → Element resistance reduction (only elemental damage is affected)
+  → Damage reduction DAMAGE_REDUCTION% (final damage reduction)
+  → Element accumulation
+  → Final damage
 ```
 
-### 8.3 元素伤害规则
+### 8.3 Elemental Damage Rules
 
-- 含有元素类型的伤害**跳过**物理/法术抗性计算
-- 只受**元素抗性**和**DAMAGE_REDUCTION**影响
-- 元素抗性为负数时变为易伤加成
+- Damage with element type **skips** physical/spell resistance calculation
+- Only affected by **element resistance** and **DAMAGE_REDUCTION**
+- When element resistance is negative, it becomes vulnerability bonus
 
-### 8.4 伤害减免优先级
+### 8.4 Damage Reduction Priority
 
-`DAMAGE_REDUCTION` 为最终减伤，对所有伤害生生效（包括元素伤害），与物抗/法抗/元素抗性叠加计算。
+`DAMAGE_REDUCTION` is final damage reduction, affecting all damage (including elemental damage), calculated叠加 with physical resistance/spell resistance/element resistance.
 
 ---
 
-## 9. Lore 展示系统
+## Expansion 1 Skill System (ItemCoreMythic)
 
-### 9.1 布局配置
-
-```yaml
-# tooltip/lore.yml
-lore-format:
-  - '#item-lore#'
-  - '{bar}'
-  - '#attack_damage#'
-  - '#attack_speed#'
-  - '#health#'
-  - '#movement_speed#'
-  ...
-```
-
-**占位符说明：**
-- `#属性名#` — 显示对应属性值（自动隐藏为0的属性）
-- `#item-lore#` — 物品配置中的描述文本
-- `{bar}` — 条件分隔线（上下有内容时才显示）
-- `{sbar}` — 始终显示的分隔线
-
-### 9.2 属性显示格式
+### 1.1 Skill Configuration
 
 ```yaml
-# tooltip/stats.yml
-attack_damage: '&f攻击伤害: &6<plus>{value}'
-crit_chance: '&f暴击几率: &6<plus>{value}%'
-```
-
-**格式变量：**
-- `{value}` — 属性数值
-- `<plus>` — 自动 `+`/`-` 符号
-- 配色：词条 `&f`（白），数值 `&6`（橙）
-
-### 9.3 自动刷新
-
-```yaml
-# config.yml
-lore-refresh:
-  enabled: true      # 启用自动刷新
-  interval: 100      # 扫描间隔（tick），100 = 5秒
-```
-
-启用后，物品 Lore 会自动随配置更新，无需手动 `/ic reload`。
-
----
-
-## 10. GUI 系统
-
-### 10.1 打开方式
-
-```
-/ic open
-/ic gui        # 兼容
-```
-
-### 10.2 界面布局
-
-**主菜单（分类页）：**
-
-```
-┌────────────────────────────┐
-│ 📚 所有物品                │ ← 右上角
-│ ┌───┬───┬───┬───┬───┬───┐ │
-│ │武器│护甲│工具│饰品│食物│   │ │ ← 中间内容区
-│ │   │   │   │   │   │   │ │
-│ └───┴───┴───┴───┴───┴───┘ │
-└────────────────────────────┘
-```
-
-**物品列表页：**
-
-```
-┌────────────────────────────┐
-│ ←返回               ✕关闭 │
-│ ┌───┬───┬───┬───┬───┬───┐ │
-│ │物A│物B│物C│物D│物E│物F│ │
-│ │物G│物H│物I│物J│物K│物L│ │
-│ └───┴───┴───┴───┴───┴───┘ │
-│ ←上一页          下一页→    │
-└────────────────────────────┘
-```
-
-**操作：**
-- 左键点击获取物品
-- Shift+左键查看物品详情
-
-### 10.3 RPG 信息 GUI
-
-```
-/itemcorerpg stats [玩家]
-```
-
-显示玩家的所有属性分类浏览，包括战斗、防御、暴击、生存、元素、进阶等。
-
----
-
-## 11. 技能系统(ItemCoreMythic)
-
-### 11.1 技能配置
-
-```yaml
-# 物品配置中
+# In item configuration
 skills:
   Right_Click:
     skill: fireball
@@ -545,101 +381,100 @@ skills:
     duration: 20
 ```
 
-### 11.2 技能触发类型
+### 1.2 Skill Trigger Types
 
-| 触发类型 | 说明 |
-|---------|------|
-| `Right_Click` | 右键触发 |
-| `Left_Click` | 左键触发 |
-| `Timer` | 定时器，`duration` = 间隔刻数 |
+| Trigger Type | Description |
+|--------------|-------------|
+| `Right_Click` | Right-click trigger |
+| `Left_Click` | Left-click trigger |
+| `Timer` | Timer, `duration` = interval ticks |
 
-### 11.3 ICDamageMechanic
+### 1.3 ICDamageMechanic
 
-MythicMobs 技能中可使用自定义伤害：
+Custom damage can be used in MythicMobs skills:
 
 ```yaml
 Skills:
 - icdamage{amount="<ic.attack_damage> * 2",type=physical,element=LIUHUO,penetration=5,crit=true} @EIR{r=5}
 ```
 
-**参数：**
+**Parameters:**
 
-| 参数 | 别名 | 默认值 | 说明 |
-|------|------|--------|------|
-| `amount` | `a` | `1` | 伤害公式，支持 `<ic.xxx>` 占位符和数学运算 |
-| `type` | `t` | `physical` | 伤害类型：`physical` / `spell` / `projectile` |
-| `element` | `e` | `none` | 元素类型：`LIUHUO` / `HANSHUANG` / `LEIZHE` |
-| `crit` | `c` | `true` | 是否可暴击 |
-| `attacktype` | `at` | `skill` | 攻击类型：`skill` / `attack` |
-| `penetration` | `p` | `0` | 额外穿透值 |
-| `lifesteal` | `ls` | `0` | 吸血比例 |
+| Parameter | Alias | Default | Description |
+|-----------|-------|---------|-------------|
+| `amount` | `a` | `1` | Damage formula, supports `<ic.xxx>` placeholders and mathematical operations |
+| `type` | `t` | `physical` | Damage type: `physical` / `spell` / `projectile` |
+| `element` | `e` | `none` | Element type: `LIUHUO` / `HANSHUANG` / `LEIZHE` |
+| `crit` | `c` | `true` | Whether can crit |
+| `attacktype` | `at` | `skill` | Attack type: `skill` / `attack` |
+| `penetration` | `p` | `0` | Extra penetration value |
+| `lifesteal` | `ls` | `0` | Lifesteal ratio |
 
-**数学运算支持：**
+**Mathematical Operation Support:**
 ```
-<ic.spell_power> * 0.5        # 50% 法术强度
-<ic.attack_damage> * 2 + 10  # 攻击力 × 2 + 10
-<ic.attack_damage> * 50%     # 50% 攻击力
+<ic.spell_power> * 0.5        # 50% spell power
+<ic.attack_damage> * 2 + 10  # Attack power × 2 + 10
+<ic.attack_damage> * 50%     # 50% attack power
 ```
 
-### 11.4 active-slots 影响范围
+### 1.4 active-slots Scope of Influence
 
-`active-slots` 配置同时控制：
-- **属性**：装备位决定是否生效
-- **技能**：主手/副手配置决定技能触发
-- **药水效果**：装备位决定是否给予药水效果
+`active-slots` configuration controls:
+- **Attributes**: Equipment slot determines whether active
+- **Skills**: Main hand/off hand configuration determines skill trigger
+- **Potion Effects**: Equipment slot determines whether to grant potion effects
 
 ---
 
-## 12. PlaceholderAPI 占位符
+## Appendix 1 PlaceholderAPI Placeholders
 
-标识符：`itemcore`
+| Placeholder | Description |
+|-------------|-------------|
+| `%itemcore_attack_damage%` | Attack damage |
+| `%itemcore_attack_speed%` | Attack speed |
+| `%itemcore_attack_range%` | Attack range |
+| `%itemcore_health%` | Current health |
+| `%itemcore_max_health%` | Maximum health |
+| `%itemcore_movement_speed%` | Total movement speed |
+| `%itemcore_regeneration%` | Life regeneration |
+| `%itemcore_knockback%` | Knockback |
+| `%itemcore_luck%` | Luck |
+| `%itemcore_spell_damage%` | Spell bonus |
+| `%itemcore_physical_damage%` | Physical bonus |
+| `%itemcore_projectile_damage%` | Projectile bonus |
+| `%itemcore_spell_power%` | Spell power |
+| `%itemcore_adaptive_force%` | Adaptive force |
+| `%itemcore_crit_chance%` | Crit chance |
+| `%itemcore_crit_damage%` | Crit damage |
+| `%itemcore_physical_resist%` | Physical resistance |
+| `%itemcore_spell_resist%` | Spell resistance |
+| `%itemcore_physical_penetration%` | Physical penetration |
+| `%itemcore_physical_penetration_percent%` | Percentage physical penetration |
+| `%itemcore_spell_penetration%` | Spell penetration |
+| `%itemcore_spell_penetration_percent%` | Percentage spell penetration |
+| `%itemcore_damage_reduction%` | Damage reduction |
 
-| 占位符 | 说明 |
-|--------|------|
-| `%itemcore_attack_damage%` | 攻击伤害 |
-| `%itemcore_attack_speed%` | 攻击速度 |
-| `%itemcore_attack_range%` | 攻击范围 |
-| `%itemcore_health%` | 总生命值（含基础20） |
-| `%itemcore_movement_speed%` | 总移速（含基础0.1） |
-| `%itemcore_regeneration%` | 生命恢复 |
-| `%itemcore_knockback%` | 击退 |
-| `%itemcore_luck%` | 幸运值 |
-| `%itemcore_spell_damage%` | 法术加成 |
-| `%itemcore_physical_damage%` | 物理加成 |
-| `%itemcore_projectile_damage%` | 射弹加成 |
-| `%itemcore_spell_power%` | 法术强度 |
-| `%itemcore_adaptive_force%` | 适应之力 |
-| `%itemcore_crit_chance%` | 暴击几率 |
-| `%itemcore_crit_damage%` | 暴击伤害（额外） |
-| `%itemcore_physical_resist%` | 物理抗性 |
-| `%itemcore_spell_resist%` | 法术抗性 |
-| `%itemcore_physical_penetration%` | 物理穿透 |
-| `%itemcore_physical_penetration_percent%` | 物理穿透% |
-| `%itemcore_spell_penetration%` | 法术穿透 |
-| `%itemcore_spell_penetration_percent%` | 法术穿透% |
-| `%itemcore_damage_reduction%` | 伤害减免 |
-| `%itemcore_max_health%` | 总生命值（同health） |
 
 ---
 
-## 13. 开发者 API
+## Appendix 2 Developer API
 
-### 13.1 获取 API 实例
+### 1. Get API Instance
 
 ```java
 import com.minemart.itemcore.api.ItemCoreAPI;
 
-// 获取玩家属性
+// Get player attributes
 AttributeContainer attrs = ItemCoreAPI.getPlayerAttributes(player);
 double attackDamage = attrs.getAttribute(CustomAttribute.ATTACK_DAMAGE);
 
-// 获取物品
+// Get item
 CustomItem item = ItemCoreAPI.getCustomItem("legendary_blade");
 
-// 获取分类
+// Get categories
 Collection<ItemCategory> categories = ItemCoreAPI.getCategories();
 
-// 处理自定义伤害
+// Process custom damage
 DamageRequest request = DamageRequest.builder()
     .attacker(attacker)
     .victim(victim)
@@ -652,67 +487,45 @@ DamageRequest request = DamageRequest.builder()
 ItemCoreAPI.processDamage(request);
 ```
 
-### 13.2 注册自定义元素
+### 2. Register Custom Element
 
 ```java
 ItemCore.getInstance().getElementRegistry()
-    .register(new ElementType("ARCANE", "奥术"));
+    .register(new ElementType("ARCANE", "Arcane"));
 ```
 
 ---
 
-## 14. 常见问题
+## FAQ
 
-**Q: 修改配置后需要重启服务器吗？**
-A: `/ic reload` 即可热重载，无需重启。
+**Q: Do I need to restart the server after modifying the configuration?**
+A: `/ic reload` can hot reload, no need to restart.
 
-**Q: 属性为什么不生效？**
-A: 检查 `active-slots` 配置。物品必须在指定的装备位才生效。
+**Q: Why aren't attributes working?**
+A: Check `active-slots` configuration. Items must be in the specified equipment slot to work.
 
-**Q: 多个装备的属性如何计算？**
-A: 同名属性自动累加。如两件装备都有 `ATTACK_DAMAGE: 10`，最终 +20。
+**Q: How are attributes from multiple equipment calculated?**
+A: Attributes with the same name are automatically accumulated. If two pieces of equipment both have `ATTACK_DAMAGE: 10`, the final result is +20.
 
-**Q: 暴击伤害显示 200%？**
-A: `CRIT_DAMAGE` 是额外加成。总暴击 = 默认值（150%）+ `CRIT_DAMAGE`。默认值可在 `attributes.yml` 中修改。
+**Q: Why does crit damage show 200%?**
+A: `CRIT_DAMAGE` is an extra bonus. Total crit = default value (150%) + `CRIT_DAMAGE`. The default value can be modified in `attributes.yml`.
 
-**Q: 攻击速度怎么配置？**
-A: 直接写最终值。`ATTACK_SPEED: 1.6` = 铁剑速度。`ATTACK_SPEED: 4.0` = 极快。
+**Q: How to configure attack speed?**
+A: Write the final value directly. `ATTACK_SPEED: 1.6` = iron sword speed. `ATTACK_SPEED: 4.0` = extremely fast.
 
-**Q: 百分比属性怎么写？**
-A: 直接填整数。`CRIT_CHANCE: 30` = 30%，不是 0.3。
+**Q: How to write percentage attributes?**
+A: Fill in integers directly. `CRIT_CHANCE: 30` = 30%, not 0.3.
 
-**Q: 适应之力有什么用？**
-A: 自动根据攻击/法强较高者转化为对应加成。转化率在 `attributes.yml` 配置。
+**Q: What is adaptive force used for?**
+A: Automatically converts to corresponding bonus based on whichever is higher between attack/spell power. Conversion rate is configured in `attributes.yml`.
 
-**Q: 元素伤害是怎么计算的？**
-A: 带元素的伤害跳过物理/法术抗性，只受元素抗性和伤害减免影响。
+**Q: How is elemental damage calculated?**
+A: Damage with element skips physical/spell resistance, only affected by element resistance and damage reduction.
 
-**Q: 如何让物品技能触发？**
-A: 安装 ItemCoreMythic，在物品配置的 `skills` 节点配置技能，确保 `active-slots` 包含 `main-hand`。
+**Q: How to make item skills trigger?**
+A: Install ItemCoreMythic, configure skills in the `skills` node of item configuration, ensure `active-slots` includes `main-hand`.
 
-**Q: 为什么创建模式拿出来的物品攻速不对？**
-A: 这是 Minecraft 创造模式物品栏的机制问题，生存模式或指令获取正常。
-
----
-
-## 📎 附录
-
-### 颜色代码速查
-
-| 代码 | 颜色 | 代码 | 颜色 |
-|------|------|------|------|
-| `&0` | 黑色 | `&8` | 深灰 |
-| `&1` | 深蓝 | `&9` | 蓝色 |
-| `&2` | 深绿 | `&a` | 绿色 |
-| `&3` | 深青 | `&b` | 天蓝 |
-| `&4` | 深红 | `&c` | 红色 |
-| `&5` | 深紫 | `&d` | 粉色 |
-| `&6` | 金色 | `&e` | 黄色 |
-| `&7` | 灰色 | `&f` | 白色 |
-| `&l` | **粗体** | `&o` | *斜体* |
-| `&n` | 下划线 | `&m` | ~~删除线~~ |
-| `&k` | 乱码 | `&r` | 重置 |
+**Q: Why is attack speed incorrect for items taken in creative mode?**
+A: This is a mechanism issue with Minecraft creative mode inventory, normal in survival mode or obtained via command.
 
 ---
-
-> ItemCore v1.0.0 — 发布于 2026-06-04
